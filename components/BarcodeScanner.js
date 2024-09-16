@@ -41,14 +41,36 @@ const BarcodeScanner = ({ onScan }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      {scanning && (
-        <div className="overlay">
-          <p>Scanning...</p>
-        </div>
-      )}
-      {error && <p>Error: {error.message}</p>}
       <video ref={videoRef} style={{ width: '100%' }} />
+      <div className="scanner-overlay">
+        <div className="scanner-guide"></div>
+        {scanning && (
+          <div className="overlay">
+            <p>Scanning...</p>
+          </div>
+        )}
+      </div>
+      {error && <p>Error: {error.message}</p>}
       <style jsx>{`
+        .scanner-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+        .scanner-guide {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 80%;
+          height: 20%;
+          border: 2px dashed #ff0000;
+          transform: translate(-50%, -50%);
+          box-sizing: border-box;
+          z-index: 10;
+        }
         .overlay {
           position: absolute;
           top: 0;
@@ -62,7 +84,7 @@ const BarcodeScanner = ({ onScan }) => {
           align-items: center;
           font-size: 24px;
           font-weight: bold;
-          z-index: 10;
+          z-index: 20;
         }
       `}</style>
     </div>
