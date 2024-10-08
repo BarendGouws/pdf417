@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BrowserMultiFormatReader, DecodeHintType, BarcodeFormat } from '@zxing/library';
+import { BrowserMultiFormatReader, BarcodeFormat, NotFoundException } from '@zxing/library';
 
 const Pdf417BarcodeScanner = () => {
   const [result, setResult] = useState(null);
@@ -7,9 +7,6 @@ const Pdf417BarcodeScanner = () => {
 
   useEffect(() => {
     const codeReader = new BrowserMultiFormatReader();
-    const hints = new Map();
-    hints.set(DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.PDF_417]);
-    codeReader.setHints(hints);
 
     codeReader.listVideoInputDevices().then((videoInputDevices) => {
       if (videoInputDevices.length > 0) {
