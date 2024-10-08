@@ -10,8 +10,12 @@ const Pdf417BarcodeScanner = () => {
 
     codeReader.listVideoInputDevices().then((videoInputDevices) => {
       if (videoInputDevices.length > 0) {
+        // Try to use the back camera if available
+        const backCamera = videoInputDevices.find(device => device.label.toLowerCase().includes('back'));
+        const selectedDeviceId = backCamera ? backCamera.deviceId : videoInputDevices[0].deviceId;
+
         codeReader.decodeFromVideoDevice(
-          videoInputDevices[0].deviceId,
+          selectedDeviceId,
           videoRef.current,
           (result, err) => {
             if (result) {
