@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
-import { BrowserMultiFormatReader } from '@zxing/library';
+import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/library';
 
 const BarcodeScanner = ({ onScan }) => {
   const videoRef = useRef(null);
@@ -15,6 +15,11 @@ const BarcodeScanner = ({ onScan }) => {
     const startScanning = async () => {
       setScanning(true); // Set scanning to true when starting
       try {
+
+        const hints = new Map();
+        // Force the reader to focus on PDF417 format only
+        hints.set(BarcodeFormat.PDF_417, true);
+        
         const result = await codeReader.decodeFromVideoDevice(null, videoRef.current, (result, error) => {
           if (result) {
             setScanning(false); // Set scanning to false on successful scan
